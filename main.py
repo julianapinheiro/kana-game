@@ -1,13 +1,10 @@
-# Kana game version 0.1 =^_^=
+# Kana game version 0.2
 
 from random import shuffle
 
 def play(range): 
 
-	#choice = input("On how many itens would you like to be tested? ")
-	#choice = int(choice)
-
-	if range <= 0 or range > 46: range = 10
+	if range > 46: range = 10
 
 	print("Starting game... \n")
 
@@ -15,17 +12,20 @@ def play(range):
 	score = 0
 
 	for i in kana[0:range]:
-		print('', i)
-		answer = input(' ')
+		print(10*' ', i)
+		answer = input(11*' ')
 		if answer == jisho[i]:
 			score += 1
-			print("Right!")
+			print(8*' ',"Right!")
 		else:
-			print("Nope...")
+			print("Nope... the right answer is: ", jisho[i])
 
 	print("\nGame end, your score is: ", score, "!")
 	if score == range: print("You nailed it!")
-	
+	if score > highscore: 
+		open("lists/score.txt", "w+").write(str(score))
+		print("New high score!")
+
 	choice = input("Type 1 if you want to play again: ")
 	if choice is "1": play(range)
 	else:
@@ -34,10 +34,19 @@ def play(range):
 
 if __name__ == '__main__':
 
-	print("\nWelcome to the Kana game, made in Python! (っ・ω・)っ",
+	print("\nWelcome to the Kana game!",
 			"\nWe have two versions:",
 			"\n1 - Hiragana",
 			"\n2 - Katakana")
+
+	highscore = open("lists/score.txt", "w+").read() 
+
+	if highscore != '':
+		highscore = int(highscore)
+	else:
+		highscore = 0
+
+	print("High score:", highscore)
 
 	choice = input("Type the number you want to play: ")
 
@@ -66,11 +75,8 @@ if __name__ == '__main__':
 	range = input("On how many items would you like to be tested? ")
 	range = int(range)
 
+	if range <= 0:
+		print("Okay then...")
+		exit()
+
 	play(range)
-
-
-
-
-
-
-
